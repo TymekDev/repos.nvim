@@ -1,8 +1,9 @@
 local M = {}
 
 local defaults = {
-  remote = "origin",
-  callbacks = {},
+  remote = "origin", -- Remote used for matching callbacks against it
+  plain = true,      -- Perform plain text matching (true) or regex matching (false)
+  callbacks = {},    -- Callbacks with keys to match against remote URL
 }
 
 M.setup = function(config)
@@ -22,7 +23,7 @@ M.setup = function(config)
         return
       end
       for key, callback in pairs(config.callbacks) do
-        if data[1]:find(key) ~= nil then
+        if data[1]:find(key, 1, config.plain) ~= nil then
           callback(root:gsub("\n$", ""))
         end
       end

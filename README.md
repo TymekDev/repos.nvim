@@ -22,6 +22,7 @@ This way the callbacks can override settings declarations executed earlier.
 ```lua
 require("repos").setup({
   remote = "origin", -- Remote used for matching callbacks against it
+  plain = true,      -- Perform plain text matching (true) or regex matching (false)
   callbacks = {},    -- Callbacks with keys to match against remote URL
 })
 ```
@@ -42,8 +43,14 @@ require("repos").setup({
     end,
     -- Runs on any SSH repository
     ["git@"] = function(_)
-      -- ...
+      print("This repo has SSH remote")
     end,
   },
 })
+```
+
+This config will print the following for repo with `git@github.com:TymekDev/repos.nvim` remote:
+```
+Repository is located at: <path to repository>
+This repo has SSH remote
 ```
