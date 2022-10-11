@@ -6,14 +6,14 @@ local defaults = {
   callbacks = {},    -- Callbacks with keys to match against remote URL
 }
 
-local function is_invalid_git_worktree(root)
-  if root:find("fatal: not a git repository") ~= nil then
-    return true
-  elseif root:find("fatal: this operation must be run in a work tree") ~= nil then
-    return true
+local function is_valid_worktree(path)
+  if path:find("fatal: not a git repository") ~= nil then
+    return false
+  elseif path:find("fatal: this operation must be run in a work tree") ~= nil then
+    return false
   end
 
-  return false
+  return true
 end
 
 M.setup = function(config)
@@ -23,7 +23,7 @@ M.setup = function(config)
   end
 
   local root = vim.fn.system({ "git", "rev-parse", "--show-toplevel" })
-  if is_invalid_git_worktree(root) then
+  if not is_valid_worktree(root) then
     return
   end
 
