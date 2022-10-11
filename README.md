@@ -27,7 +27,9 @@ require("repos").setup({
 })
 ```
 
-Note: multiple `callbacks` can be executed for a single repository.
+Notes:
+  - Multiple `callbacks` can be executed for a single repository
+  - `callbacks` will run only in a git worktree, i.e. not in the root of a bare repo
 
 ### Example
 ```lua
