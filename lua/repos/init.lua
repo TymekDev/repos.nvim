@@ -1,5 +1,6 @@
 local M = {}
 
+local config = {}
 local defaults = {
   remote = "origin", -- Remote used for matching callbacks against it
   plain = true,      -- Perform plain text matching (true) or regex matching (false)
@@ -16,9 +17,15 @@ local function is_valid_worktree(path)
   return true
 end
 
-function M.setup(config)
-  config = vim.tbl_deep_extend("keep", config or {}, defaults)
-  if vim.tbl_count(config.callbacks) == 0 then
+function M.run()
+  local msg = ""
+  if vim.tbl_count(config) == 0 or config.callbacks == nil then
+    msg = "repos.nvim is not configured. Run setup() function first."
+  elseif vim.tbl_count(config.callbacks) == 0 then
+    msg = "repos.nvim does not have any callback registered. Use setup() function to define them."
+  end
+  if msg ~= "" then
+    vim.notify(msg, vim.log.levels.ERROR)
     return
   end
 
@@ -40,6 +47,11 @@ function M.setup(config)
     end,
     stdout_buffered = true,
   })
+end
+
+function M.setup(_config)
+  config = vim.tbl_deep_extend("keep", _config or {}, defaults)
+  M.run()
 end
 
 return M

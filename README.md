@@ -17,8 +17,8 @@ use "TymekDev/repos.nvim"
 ```
 
 ## Usage
-I suggest configuring repos.nvim in `after/plugin` directory.
-This way the callbacks can override settings declarations executed earlier.
+`setup()` function stores your config and executes callbacks immediately.
+If you would like to restore config to defaults, then run `setup()` with no arguments or with an empty table (`{}`).
 ```lua
 require("repos").setup({
   remote = "origin", -- Remote used for matching callbacks against it
@@ -26,6 +26,7 @@ require("repos").setup({
   callbacks = {},    -- Callbacks with keys to match against remote URL
 })
 ```
+If you would like to execute callbacks again, then execute `run()` function (it uses saved configuration).
 
 Notes:
   - Multiple `callbacks` can be executed for a single repository
