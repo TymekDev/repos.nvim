@@ -16,7 +16,7 @@ local function is_valid_worktree(path)
   return true
 end
 
-M.setup = function(config)
+function M.setup(config)
   config = vim.tbl_deep_extend("keep", config or {}, defaults)
   if vim.tbl_count(config.callbacks) == 0 then
     return
